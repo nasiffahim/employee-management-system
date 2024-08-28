@@ -14,11 +14,11 @@ async def get_all_emp_info():
      return all_emp_data(data)
 
 
-@router.post("/create")
-async def create_emp_info(Employee):
+@router.post("/")
+async def create_emp_info(new_employee: Employee):
     try:
-        response = collection.insert_one(dict(create_emp_info))
-        return {"status_code": 200, "id": response.inserted_id}
+        response = collection.insert_one(new_employee.dict())
+        return {"status_code": 200, "id": str(response.inserted_id)}
     except Exception as e:
         return HTTPException(status_code=500, detail=f"Error Occured {e}")
 

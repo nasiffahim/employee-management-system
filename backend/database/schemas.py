@@ -1,12 +1,12 @@
 def emp_data(info):
     return {
-        "id": str(todo["_id"]),
-        "firstName": todo["firstName"],
-        "lastName": todo["lastName"],
-        "age": str(todo["age"]),
-        "currentAddress": todo["currentAddress"],
-        "permanentAddress": todo["permanentAddress"],
-        "email": todo["email"],
+        "id": str(info["_id"]),
+        "firstName": info["firstName"],
+        "lastName": info["lastName"],
+        "age": str(info["age"]),
+        "currentAddress": info["currentAddress"],
+        "permanentAddress": info["permanentAddress"],
+        "email": info["email"],
     }
 
 def all_emp_data(infos):
