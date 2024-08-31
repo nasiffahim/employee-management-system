@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getEmpInfo } from "./rest";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EditUser = () => {
-
+    const { empId } = useParams();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -32,6 +34,22 @@ const EditUser = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
+    useEffect(() => {
+        const fetchEmployeeData = async () => {
+            try {
+                const data = await getEmpInfo(empId);
+                setFormData({
+                    ...data,
+                    image: null,
+                });
+            } catch (error) {
+                console.log('Failed to fetch employee data');
+            }
+        };
+
+        fetchEmployeeData();
+    }, [empId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();

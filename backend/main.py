@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException
 from database.schemas import all_emp_data
+from database.schemas import emp_data
 from database.models import Employee
 from config import collection
 from bson.objectid import ObjectId
@@ -40,6 +41,18 @@ async def create_emp_info(new_employee: Employee):
         return {"status_code": 200, "id": str(response.inserted_id)}
     except Exception as e:
         return HTTPException(status_code=500, detail=f"Error Occured {e}")
+
+
+@router.get("/employees/{emp_id}")
+async def get_emp_info(emp_id: str):
+    try:
+        id = ObjectId(emp_id)
+        existing_emp = collection.find_one({"_id": id, "is_deleted": False})
+        if not existing_emp:
+            return HTTPException(status_code=404, detail=f"Employee ID does not exist")
+        return emp_data(existing_emp)
+    except Exception as e:
+        return HTTPException(status_code=500, detail=f"Some Error Occured {e}")
 
 
 @router.put("/employees/{emp_id}")

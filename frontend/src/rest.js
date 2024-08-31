@@ -22,6 +22,15 @@ export const createEmpInfo = async (newEmployee) => {
     }
 };
 
+export const getEmpInfo = async (empId) => {
+    try {
+        const response = await axios.get(`${apiUrl}/${empId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching employee info by ID:', error);
+        throw error;
+    }
+};
 
 export const editEmpInfo = async (empId, editEmpInfo) => {
     try {
