@@ -7,6 +7,7 @@ def emp_data(info):
         "currentAddress": info["currentAddress"],
         "permanentAddress": info["permanentAddress"],
         "email": info["email"],
+        "is_deleted": info["is_deleted"]
     }
 
 def all_emp_data(infos):
