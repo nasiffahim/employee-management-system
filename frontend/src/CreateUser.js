@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { createEmpInfo } from "./rest";
 // import './CreateUser.css';
 
 const CreateUser = () => {
@@ -40,7 +41,7 @@ const CreateUser = () => {
         e.preventDefault();
         if (validateForm()) {
             console.log("Form data submitted:", formData);
-            // Handle form submission (e.g., POST request to an API)
+            createEmpInfo(formData)
         }
     };
 

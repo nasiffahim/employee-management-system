@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getAllEmpInfo } from "./rest";
 
 
 const User = () => {
 
-    const [user, setUser] = useState([{
-        Name: 'John', Email: "john@gmail.com", Age: 20
-    }])
+    const [user, setUser] = useState([])
+
+    useEffect(() => {
+      console.log("hhhhhhello");
+      const fetchData = async() => {
+        const data = await getAllEmpInfo();
+        console.log("data", data);
+        setUser(data)
+      }
+      fetchData();
+    }, [])
+    
 
     return (
 
@@ -38,11 +48,11 @@ const User = () => {
                         </thead>
                         <tbody>
                             {
-                                user.map((user) => {
+                                user?.map((user) => {
                                     return <tr>
-                                        <td>{user.Name}</td>
-                                        <td>{user.Email}</td>
-                                        <td>{user.Age}</td>
+                                        <td>{user.firstName}{' '}{user.lastName}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.age}</td>
                                         <td>
                                             <Link to="/edit" className="btn btn-success">Edit</Link>
                                             <button type="button" class="btn btn-danger">Delete</button>

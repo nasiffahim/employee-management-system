@@ -3,19 +3,37 @@ from database.schemas import all_emp_data
 from database.models import Employee
 from config import collection
 from bson.objectid import ObjectId
+import uvicorn
+import os
+from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
+load_dotenv()
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 router = APIRouter()
 
 
 
-@router.get("/")
+@router.get("/employees/")
 async def get_all_emp_info():
      data = collection.find( {"is_deleted": False} )
      return all_emp_data(data)
 
 
-@router.post("/")
+@router.post("/employees/")
 async def create_emp_info(new_employee: Employee):
     try:
         response = collection.insert_one(new_employee.dict())
@@ -24,7 +42,7 @@ async def create_emp_info(new_employee: Employee):
         return HTTPException(status_code=500, detail=f"Error Occured {e}")
 
 
-@router.put("/{emp_id}")
+@router.put("/employees/{emp_id}")
 async def edit_emp_info(emp_id: str, edit_emp_info: Employee):
     try:
         id = ObjectId(emp_id)
@@ -38,7 +56,7 @@ async def edit_emp_info(emp_id: str, edit_emp_info: Employee):
         return HTTPException(status_code=500, detail=f"Some Error Occured {e}")
 
 
-@router.delete("/{emp_id}")
+@router.delete("/employees/{emp_id}")
 async def delete_emp_info(emp_id: str):
     try:
         id = ObjectId(emp_id)
@@ -53,4 +71,7 @@ async def delete_emp_info(emp_id: str):
 
 
 app.include_router(router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host=os.getenv('BACKEND_HOST'), port=int(os.getenv('BACKEND_PORT')))
 
