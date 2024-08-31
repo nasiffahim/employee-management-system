@@ -27,10 +27,8 @@ const EditUser = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        // Simple validation example
         if (!formData.firstName) newErrors.firstName = "First Name is required";
         if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Valid Email is required";
-        // Add more validation rules as needed
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -39,7 +37,6 @@ const EditUser = () => {
         e.preventDefault();
         if (validateForm()) {
             console.log("Form data submitted:", formData);
-            // Handle form submission (e.g., POST request to an API)
         }
     };
 

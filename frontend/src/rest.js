@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_BACKEND_URL + "/employees"
 
-// Get all employee info
 export const getAllEmpInfo = async () => {
     try {
         const response = await axios.get(`${apiUrl}/`);
@@ -13,7 +12,6 @@ export const getAllEmpInfo = async () => {
     }
 };
 
-// Create new employee info
 export const createEmpInfo = async (newEmployee) => {
     try {
         const response = await axios.post(`${apiUrl}/`, newEmployee);
@@ -24,7 +22,7 @@ export const createEmpInfo = async (newEmployee) => {
     }
 };
 
-// Edit employee info
+
 export const editEmpInfo = async (empId, editEmpInfo) => {
     try {
         const response = await axios.put(`${apiUrl}/${empId}`, editEmpInfo);
@@ -35,7 +33,7 @@ export const editEmpInfo = async (empId, editEmpInfo) => {
     }
 };
 
-// Delete employee info
+
 export const deleteEmpInfo = async (empId) => {
     try {
         const response = await axios.delete(`${apiUrl}/${empId}`);

@@ -50,7 +50,7 @@ async def edit_emp_info(emp_id: str, edit_emp_info: Employee):
         if not existing_emp:
             return HTTPException(status_code=404, detail=f"Employee ID does not exist")
         resp =collection.update_one({"_id": id}, {"$set": dict(edit_emp_info)})
-        return {"status_code": 200, "message": "Task updated Successfully"}
+        return {"status_code": 200, "message": "Employee Info updated Successfully"}
 
     except Exception as e:
         return HTTPException(status_code=500, detail=f"Some Error Occured {e}")
@@ -64,7 +64,7 @@ async def delete_emp_info(emp_id: str):
         if not existing_emp:
             return HTTPException(status_code=404, detail=f"Employee ID does not exist")
         resp =collection.update_one({"_id": id}, {"$set": {"is_deleted": True}})
-        return {"status_code": 200, "message": "Task updated Successfully"}
+        return {"status_code": 200, "message": "Employee deleted Successfully"}
 
     except Exception as e:
         return HTTPException(status_code=500, detail=f"Some Error Occured {e}")

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createEmpInfo } from "./rest";
-// import './CreateUser.css';
 
 const CreateUser = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +17,7 @@ const CreateUser = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -29,10 +29,8 @@ const CreateUser = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        // Simple validation example
         if (!formData.firstName) newErrors.firstName = "First Name is required";
         if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Valid Email is required";
-        // Add more validation rules as needed
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -42,6 +40,12 @@ const CreateUser = () => {
         if (validateForm()) {
             console.log("Form data submitted:", formData);
             createEmpInfo(formData)
+                .then(() => {
+                    navigate("/"); 
+                })
+                .catch((error) => {
+                    console.error("Error creating user:", error);
+                });
         }
     };
 
