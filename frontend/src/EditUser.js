@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { getEmpInfo } from "./rest";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { getEmpInfo, editEmpInfo } from "./rest";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EditUser = () => {
     const { empId } = useParams();
     const [formData, setFormData] = useState({
+        id: '',
         firstName: '',
         lastName: '',
         age: '',
@@ -17,10 +18,15 @@ const EditUser = () => {
         image: null,
     });
 
+    console.log("emp id", empId)
+
+    const roles = ["Select Role","Admin", "User", "Guest", "Super User"];
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
+        console.log(name, value)
         setFormData({
             ...formData,
             [name]: type === 'file' ? files[0] : value,
@@ -55,6 +61,13 @@ const EditUser = () => {
         e.preventDefault();
         if (validateForm()) {
             console.log("Form data submitted:", formData);
+            editEmpInfo(empId, formData)
+                .then(() => {
+                    navigate("/"); 
+                })
+                .catch((error) => {
+                    console.error("Error creating user:", error);
+                });
         }
     };
 
@@ -187,10 +200,7 @@ const EditUser = () => {
                                     value={formData.role}
                                     onChange={handleChange}
                                 >
-                                    <option value="">Select Role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                    <option value="guest">Guest</option>
+                                    {roles.map(e=> ( <option value={e} selected = { e == formData.role}> {e} </option> ))}
                                 </select>
                             </div>
                         </div>
