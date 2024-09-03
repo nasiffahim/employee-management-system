@@ -1,4 +1,4 @@
-def emp_data(info):
+def parse_emp_data(info):
     return {
         "id": str(info["_id"]),
         "firstName": info["firstName"],
@@ -11,7 +11,7 @@ def emp_data(info):
     }
 
 def all_emp_data(infos):
-    return [emp_data(info) for info in infos]
+    return [parse_emp_data(info) for info in infos]
 
 
 
@@ -24,6 +24,7 @@ def emp_data(info):
         "currentAddress": info["currentAddress"],
         "permanentAddress": info["permanentAddress"],
         "email": info["email"],
+        "image": info.get("image"),
         "is_deleted": info["is_deleted"]
     }
 

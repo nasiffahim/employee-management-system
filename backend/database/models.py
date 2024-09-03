@@ -8,6 +8,7 @@ class Employee(BaseModel):
     currentAddress: str
     permanentAddress: str
     email: str
+    image: str
     is_deleted: bool = False
     # create_time: int = int(datetime.timestamp(datetime.now))
     # update_time: int = int(datetime.timestamp(datetime.now))

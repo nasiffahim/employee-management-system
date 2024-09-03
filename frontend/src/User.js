@@ -49,19 +49,21 @@ const User = () => {
                   <table className="table">
                           <thead>
                           <tr>
+                              <th>Profile Picture</th>
                               <th>Name</th>
                               <th>Email</th>
-                              <th>Age</th>
-                              <th>Action</th>
+                              <th>Age</th>                              
+                              <th>Action</th>                              
                           </tr>
                       </thead>
                       <tbody>
                           {
                               user?.map((user) => {
                                   return <tr>
+                                      {user.image !== null ? <td><img src={user.image} height={"30px"} width={"30px"} /></td> : <div></div>}
                                       <td>{user.firstName}{' '}{user.lastName}</td>
                                       <td>{user.email}</td>
-                                      <td>{user.age}</td>
+                                      <td>{user.age}</td>                                      
                                       <td>
                                           <Link to={`/edit/${user.id}`} className="btn btn-success">Edit</Link>
                                           <button onClick={() => handleDelete(user.id)} type="button" class="btn btn-danger">Delete</button>

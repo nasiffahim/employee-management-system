@@ -3,6 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createEmpInfo } from "./rest";
 
+
+const getBase64FromFile = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+    });
+  };
+  
 const CreateUser = () => {
     const [formData, setFormData] = useState({
         firstName: '',
@@ -19,11 +29,16 @@ const CreateUser = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {        
         const { name, value, type, files } = e.target;
+        let convertedValue = value;
+        console.log(name)
+        if(type==='file'){
+            convertedValue = await getBase64FromFile(files[0]);
+        }
         setFormData({
             ...formData,
-            [name]: type === 'file' ? files[0] : value,
+            [name]: convertedValue,
         });
     };
 
@@ -34,6 +49,21 @@ const CreateUser = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (validateForm()) {
+    //         console.log("Form data submitted:", formData);
+    //         createEmpInfo(formData)
+    //             .then(() => {
+    //                 navigate("/"); 
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error creating user:", error);
+    //             });
+    //     }
+    // };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -48,6 +78,7 @@ const CreateUser = () => {
                 });
         }
     };
+    
 
     return (
         <div>

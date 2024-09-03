@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, UploadFile, File
 from database.schemas import all_emp_data
 from database.schemas import emp_data
 from database.models import Employee
@@ -6,6 +6,7 @@ from config import collection
 from bson.objectid import ObjectId
 import uvicorn
 import os
+import base64
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -41,6 +42,39 @@ async def create_emp_info(new_employee: Employee):
         return {"status_code": 200, "id": str(response.inserted_id)}
     except Exception as e:
         return HTTPException(status_code=500, detail=f"Error Occured {e}")
+
+
+# @router.post("/employees/")
+# async def create_emp_info(
+#     firstName: str,
+#     lastName: str,
+#     age: int,
+#     currentAddress: str,
+#     permanentAddress: str,
+#     email: str,
+#     image: str,
+# ):
+#     try:
+#         # Read image file and convert to base64 string
+#         # image_bytes = await image.read()
+#         # encoded_image = base64.b64encode(image_bytes).decode("utf-8")
+        
+#         # Create new employee object
+#         new_employee = Employee(
+#             firstName=firstName,
+#             lastName=lastName,
+#             age=age,
+#             currentAddress=currentAddress,
+#             permanentAddress=permanentAddress,
+#             email=email,
+#             image=image,
+#         )
+
+#         # Insert employee data into MongoDB
+#         response = collection.insert_one(new_employee.dict())
+#         return {"status_code": 200, "id": str(response.inserted_id)}
+#     except Exception as e:
+#         return HTTPException(status_code=500, detail=f"Error Occured {e}")
 
 
 @router.get("/employees/{emp_id}")
