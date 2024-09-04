@@ -11,7 +11,7 @@ const getBase64FromFile = (file) => {
       reader.onload = () => resolve(reader.result);
       reader.onerror = () => reject(reader.error);
     });
-  };
+};
   
 const CreateUser = () => {
     const [formData, setFormData] = useState({
@@ -24,6 +24,7 @@ const CreateUser = () => {
         role: '',
         gender: '',
         image: null,
+        image_name: '',
     });
 
     const [errors, setErrors] = useState({});
@@ -32,14 +33,22 @@ const CreateUser = () => {
     const handleChange = async (e) => {        
         const { name, value, type, files } = e.target;
         let convertedValue = value;
-        console.log(name)
-        if(type==='file'){
-            convertedValue = await getBase64FromFile(files[0]);
+    
+        if (type === 'file') {
+            const file = files[0];
+            convertedValue = await getBase64FromFile(file);
+    
+            setFormData({
+                ...formData,
+                image: convertedValue,
+                image_name: file.name,
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: convertedValue,
+            });
         }
-        setFormData({
-            ...formData,
-            [name]: convertedValue,
-        });
     };
 
     const validateForm = () => {
@@ -49,21 +58,6 @@ const CreateUser = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     if (validateForm()) {
-    //         console.log("Form data submitted:", formData);
-    //         createEmpInfo(formData)
-    //             .then(() => {
-    //                 navigate("/"); 
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error creating user:", error);
-    //             });
-    //     }
-    // };
-
 
     const handleSubmit = (e) => {
         e.preventDefault();

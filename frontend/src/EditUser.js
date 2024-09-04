@@ -3,6 +3,15 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { getEmpInfo, editEmpInfo } from "./rest";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const getBase64FromFile = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+    });
+};
+
 const EditUser = () => {
     const { empId } = useParams();
     const [formData, setFormData] = useState({
@@ -16,20 +25,28 @@ const EditUser = () => {
         role: '',
         gender: '',
         image: null,
+        image_name: ''
     });
+    const [imagePreview, setImagePreview] = useState(null);
 
     console.log("emp id", empId)
+    console.log("values", formData )
 
     const roles = ["Select Role","Admin", "User", "Guest", "Super User"];
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {
         const { name, value, type, files } = e.target;
         console.log(name, value)
+        let convertedValue = value;
+        if(type==='file'){
+            convertedValue = await getBase64FromFile(files[0]);
+            setImagePreview(convertedValue);
+        }
         setFormData({
             ...formData,
-            [name]: type === 'file' ? files[0] : value,
+            [name]: convertedValue,
         });
     };
 
@@ -47,8 +64,9 @@ const EditUser = () => {
                 const data = await getEmpInfo(empId);
                 setFormData({
                     ...data,
-                    image: null,
+                    // image: null,                    
                 });
+                setImagePreview(data.image)
             } catch (error) {
                 console.log('Failed to fetch employee data');
             }
@@ -189,7 +207,13 @@ const EditUser = () => {
                                     id="imageUpload"
                                     name="image"
                                     onChange={handleChange}
+                                    // value={formData.image_name}
                                 />
+                                {imagePreview && (
+                                    <div className="col-md-6">
+                                        <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    </div>
+                                )}
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="role">Role</label>
@@ -197,10 +221,10 @@ const EditUser = () => {
                                     className="form-select"
                                     id="role"
                                     name="role"
-                                    value={formData.role}
+                                    // value={formData.role}
                                     onChange={handleChange}
                                 >
-                                    {roles.map(e=> ( <option value={e} selected = { e == formData.role}> {e} </option> ))}
+                                    {roles.map(e=> ( <option value={e} selected = { e.toLowerCase() == formData.role?.toLowerCase()}> {e} </option> ))}
                                 </select>
                             </div>
                         </div>

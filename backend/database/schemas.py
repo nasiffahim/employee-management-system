@@ -7,6 +7,8 @@ def parse_emp_data(info):
         "currentAddress": info["currentAddress"],
         "permanentAddress": info["permanentAddress"],
         "email": info["email"],
+        "image": info.get("image"),
+        "image_name": info.get("image_name", None),
         "is_deleted": info["is_deleted"]
     }
 
@@ -25,6 +27,8 @@ def emp_data(info):
         "permanentAddress": info["permanentAddress"],
         "email": info["email"],
         "image": info.get("image"),
+        "image_name": info.get("image_name", None), 
+        "role": info["role"],
         "is_deleted": info["is_deleted"]
     }
 

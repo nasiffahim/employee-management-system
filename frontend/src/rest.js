@@ -12,16 +12,6 @@ export const getAllEmpInfo = async () => {
     }
 };
 
-// export const createEmpInfo = async (newEmployee) => {
-//     try {
-//         const response = await axios.post(`${apiUrl}/`, newEmployee);
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error creating employee info:', error);
-//         throw error;
-//     }
-// };
-
 export const createEmpInfo = async (newEmployee) => {
     try {
         const response = await axios.post(`${apiUrl}/`, newEmployee);
