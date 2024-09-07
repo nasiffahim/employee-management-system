@@ -9,6 +9,7 @@ def parse_emp_data(info):
         "email": info["email"],
         "image": info.get("image"),
         "image_name": info.get("image_name", None),
+        "joiningDate": info.get("joiningDate", None),
         "is_deleted": info["is_deleted"]
     }
 
@@ -29,6 +30,9 @@ def emp_data(info):
         "image": info.get("image"),
         "image_name": info.get("image_name", None), 
         "role": info["role"],
+        "gender": info["gender"],
+        "joiningDate": info["joiningDate"],
+        # "dateOfBirth": str(info["dateOfBirth"]) if "dateOfBirth" in info else None,
         "is_deleted": info["is_deleted"]
     }
 

@@ -230,9 +230,8 @@ const EditUser = () => {
                         </div>
 
                         <div className="row mb-3">
-                            <div className="col-md-6">
-                                <label>Gender</label>
-                                <div>
+                            <div className="col-md-6 d-flex align-items-center">
+                                <label className="me-3">Gender</label>
                                     <div className="form-check form-check-inline">
                                         <input
                                             className="form-check-input"
@@ -255,11 +254,24 @@ const EditUser = () => {
                                             checked={formData.gender === 'female'}
                                             onChange={handleChange}
                                         />
-                                        <label className="form-check-label" htmlFor="female">Female</label>
-                                    </div>
+                                    <label className="form-check-label" htmlFor="female">Female</label>
                                 </div>
                             </div>
-                        </div>
+
+                            <div className="col-md-6">
+                                <label htmlFor="joiningDate">Date of Joining</label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        id="joiningDate"
+                                        name="joiningDate"
+                                        value={formData.joiningDate?.split("T")?.[0]}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+
+                        
 
                         <button type="submit" className="btn btn-success mt-3">Submit</button>
                     </form>

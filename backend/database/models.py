@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import datetime, date
 
 class Employee(BaseModel): 
     firstName: str
@@ -11,7 +11,7 @@ class Employee(BaseModel):
     image: str
     image_name: str 
     role: str
+    gender: str
+    joiningDate: str
     is_deleted: bool = False
-    # create_time: int = int(datetime.timestamp(datetime.now))
-    # update_time: int = int(datetime.timestamp(datetime.now))
 

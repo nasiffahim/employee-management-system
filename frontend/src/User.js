@@ -52,8 +52,10 @@ const User = () => {
                               <th>Profile Picture</th>
                               <th>Name</th>
                               <th>Email</th>
-                              <th>Age</th>                              
-                              <th>Action</th>                              
+                              <th>Age</th>
+                              {/* <th>J Date</th>                              */}
+                              <th>Action</th>                             
+                                                          
                           </tr>
                       </thead>
                       <tbody>
@@ -64,6 +66,7 @@ const User = () => {
                                       <td>{user.firstName}{' '}{user.lastName}</td>
                                       <td>{user.email}</td>
                                       <td>{user.age}</td>                                      
+                                      {/* <td>{user.joiningDate}</td>                                       */}
                                       <td>
                                           <Link to={`/edit/${user.id}`} className="btn btn-success">Edit</Link>
                                           <button onClick={() => handleDelete(user.id)} type="button" class="btn btn-danger">Delete</button>

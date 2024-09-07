@@ -25,8 +25,10 @@ const CreateUser = () => {
         gender: '',
         image: null,
         image_name: '',
+        // joiningDate: '',
     });
 
+    const roles = ["Select Role","Admin", "User", "Guest", "Super User"];
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
@@ -199,21 +201,17 @@ const CreateUser = () => {
                                     className="form-select"
                                     id="role"
                                     name="role"
-                                    value={formData.role}
+                                    // value={formData.role}
                                     onChange={handleChange}
                                 >
-                                    <option value="">Select Role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                    <option value="guest">Guest</option>
+                                    {roles.map(e=> ( <option value={e} selected = { e.toLowerCase() == formData.role?.toLowerCase()}> {e} </option> ))}
                                 </select>
                             </div>
                         </div>
 
                         <div className="row mb-3">
-                            <div className="col-md-6">
-                                <label>Gender</label>
-                                <div>
+                            <div className="col-md-6 d-flex align-items-center">
+                                <label className="me-3">Gender</label>
                                     <div className="form-check form-check-inline">
                                         <input
                                             className="form-check-input"
@@ -236,11 +234,22 @@ const CreateUser = () => {
                                             checked={formData.gender === 'female'}
                                             onChange={handleChange}
                                         />
-                                        <label className="form-check-label" htmlFor="female">Female</label>
-                                    </div>
+                                    <label className="form-check-label" htmlFor="female">Female</label>
                                 </div>
                             </div>
-                        </div>
+
+                            <div className="col-md-6">
+                                <label htmlFor="joiningDate">Date of Joining</label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        id="joiningDate"
+                                        name="joiningDate"
+                                        value={formData.joiningDate}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
 
                         <button type="submit" className="btn btn-success mt-3">Submit</button>
                     </form>
